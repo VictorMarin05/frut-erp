@@ -3,7 +3,7 @@ import { DeslizadorConfirmacion } from './DeslizadorConfirmacion';
 import { ItemManifiesto } from './ItemManifiesto';
 import { InfoCliente } from './InfoCliente';
 
-export function ParadaReparto({ cliente, direccion, telefono, notas, items }) {
+export function ParadaReparto({ cliente, direccion, telefono, notas, items, distancia }) {
   const [menuAbiertoIdx, setMenuAbiertoIdx] = useState(null);
   const [itemsEscaneados, setItemsEscaneados] = useState([]);
 
@@ -26,6 +26,7 @@ export function ParadaReparto({ cliente, direccion, telefono, notas, items }) {
         direccion={direccion} 
         telefono={telefono} 
         notas={notas} 
+        distancia={distancia}
       />
 
       <ul className="mb-6 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">

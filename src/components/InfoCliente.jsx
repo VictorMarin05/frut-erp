@@ -1,4 +1,4 @@
-export function InfoCliente({ cliente, direccion, telefono, notas }) {
+export function InfoCliente({ cliente, direccion, telefono, notas, distancia }) {
   return (
     <div className="mb-4">
       <div className="flex justify-between items-start mb-2">
@@ -11,7 +11,7 @@ export function InfoCliente({ cliente, direccion, telefono, notas }) {
         </a>
       </div>
       
-      <p className="text-gray-600 font-medium text-lg italic">📍 {direccion}</p>
+      <p className="text-gray-600 font-medium text-lg italic">📍 {direccion} - Quedan {distancia} km</p>
       
       {notas && (
         <div className="mt-3 bg-yellow-100 border-l-4 border-yellow-500 p-3 rounded-r-md">

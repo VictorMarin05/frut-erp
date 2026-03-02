@@ -45,7 +45,16 @@ const datosIniciales = [
 function App() {
   const [criterioOrden, setCriterioOrden] = useState('optimizado');
 
-  const paradasOrdenadas = [...datosIniciales].sort((a, b) => {
+  //Estado para la búsqueda
+  const [filtroBusqueda, setFiltroBusqueda] = useState("");
+
+  // 1. Filtrar primero por nombre o dirección
+  const paradasFiltradas = datosIniciales.filter(p => 
+    p.cliente.toLowerCase().includes(filtroBusqueda.toLowerCase()) ||
+    p.direccion.toLowerCase().includes(filtroBusqueda.toLowerCase())
+  );
+
+  const paradasOrdenadas = [...paradasFiltradas].sort((a, b) => {
     if (criterioOrden === 'distancia') return a.distancia - b.distancia;
     if (criterioOrden === 'alfabetico-a-z') return a.cliente.localeCompare(b.cliente);
     if (criterioOrden === 'alfabetico-z-a') return b.cliente.localeCompare(a.cliente);
@@ -58,6 +67,16 @@ function App() {
       
       <div className="w-full max-w-md p-4 flex flex-col items-center">
         <h1 className="text-3xl font-black text-gray-800 mb-6 mt-4 italic">Ruta Activa</h1>
+
+        {/* Campo de búsqueda */}
+        <input 
+          type="text"
+          placeholder="Buscar por cliente o dirección..."
+          value={filtroBusqueda}
+          onChange={(e) => setFiltroBusqueda(e.target.value)}
+          className="w-full mb-4 px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
+        />
+
 
         {/* Selector de Ordenación (4 columnas) */}
         <div className="w-full grid grid-cols-4 gap-1 mb-8 bg-white p-1 rounded-xl shadow-sm border border-gray-200">
@@ -80,6 +99,7 @@ function App() {
             telefono={parada.telefono}
             notas={parada.notas}
             items={parada.items}
+            distancia={parada.distancia}
           />
         ))}
       </div>
