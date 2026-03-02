@@ -2,17 +2,13 @@
 
 @theme {
   --color-verde-fruta: #2E7D32;
-}
 
-@keyframes vibrate {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
-}
+  --animate-vibrate: vibrate 0.2s linear 2;
 
-.animate-vibrate {
-  animation: vibrate 0.2s linear infinite;
-  animation-iteration-count: 2;
+  @keyframes vibrate {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+  }
 }
