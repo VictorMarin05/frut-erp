@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { DeslizadorConfirmacion } from './DeslizadorConfirmacion';
 import { ItemManifiesto } from './ItemManifiesto';
-import { InfoCliente } from './InfoCliente'; // <-- Importamos tu nuevo componente
+import { InfoCliente } from './InfoCliente';
 
 export function ParadaReparto({ cliente, direccion, telefono, notas, items }) {
   const [menuAbiertoIdx, setMenuAbiertoIdx] = useState(null);
@@ -18,9 +18,9 @@ export function ParadaReparto({ cliente, direccion, telefono, notas, items }) {
   const todosEscaneados = items && itemsEscaneados.length === items.length;
 
   return (
-    <div className="bg-white border-l-8 border-blue-600 shadow-lg rounded-xl p-5 mb-5 w-full max-w-md">
+    <div className="bg-white border-l-8 border-blue-600 shadow-lg rounded-2xl p-6 mb-6 w-full max-w-md">
       
-      {/* ¡Toda la complejidad visual de los textos se resume en esta línea! */}
+      {/* Pasamos 'cliente' al componente InfoCliente */}
       <InfoCliente 
         cliente={cliente} 
         direccion={direccion} 
@@ -28,8 +28,7 @@ export function ParadaReparto({ cliente, direccion, telefono, notas, items }) {
         notas={notas} 
       />
 
-      {/* La parte del inventario (Mantenida igual) */}
-      <ul className="mb-6 bg-gray-50 rounded-lg border border-gray-100">
+      <ul className="mb-6 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
         {items && items.map((item, index) => (
           <ItemManifiesto 
             key={index} 
@@ -45,8 +44,7 @@ export function ParadaReparto({ cliente, direccion, telefono, notas, items }) {
       
       {!todosEscaneados ? (
         <button 
-            className="w-full bg-blue-50 text-blue-800 border-2 border-blue-600 hover:bg-blue-100 font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-2 cursor-pointer transition-colors"
-            onClick={() => alert("Simulando apertura de cámara...")}
+            className="w-full bg-blue-50 text-blue-800 border-2 border-blue-600 font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-2 cursor-pointer transition-colors"
         >
             📷 ESCANEAR CAJAS ({itemsEscaneados.length}/{items.length})
         </button>
