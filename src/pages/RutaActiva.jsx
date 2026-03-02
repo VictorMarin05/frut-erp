@@ -106,4 +106,4 @@ export function RutaActiva() {
   )
 }
 
-export default App
+export default RutaActiva
