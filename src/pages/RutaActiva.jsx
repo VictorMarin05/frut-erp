@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Header } from '../components/Header'
 import { ParadaReparto } from '../components/ParadaReparto'
 
 const datosIniciales = [
@@ -42,7 +41,7 @@ const datosIniciales = [
   }
 ];
 
-function App() {
+export function RutaActiva() {
   const [criterioOrden, setCriterioOrden] = useState('optimizado');
 
   //Estado para la búsqueda
