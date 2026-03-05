@@ -12,6 +12,7 @@ const datosIniciales = [
     notas: "Dejar las cajas en la trastienda.",
     items: [
       {nombre: "Plátanos", cantidad: 2, icon: "📦"},
+      {nombre: "Naranjas", cantidad: 3, icon: "📦"},
       {nombre: "Naranjas", cantidad: 1, icon: "🛍️"}
     ]
   },

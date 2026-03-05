@@ -9,28 +9,47 @@ export function Login({ alAutenticar }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mostrarPassword, setMostrarPassword] = useState(false);
-  const [error, setError] = useState(false);
-  const [vibrar, setVibrar] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [vibrarEmail, setVibrarEmail] = useState(false);
+  const [vibrarPassword, setVibrarPassword] = useState(false);
+
+  const activarVibracion = (setVibrar) => {
+    setVibrar(false);
+    setTimeout(() => {
+      setVibrar(true);
+    }, 10);
+    setTimeout(() => {
+      setVibrar(false);
+    }, 400);
+  };
 
   const manejarLogin = (e) => {
     e.preventDefault();
 
-    // Comparamos limpiando espacios. Si no coincide, vibra.
-    if (email.trim() !== 'conductor@fruterp.com') {
-      setError(true);
-      setVibrar(false); // Reset para permitir repeticiones
+    const emailValido = email.trim() === 'conductor@fruterp.com';
+    const passwordValido = password === '1234';
 
-      setTimeout(() => {
-        setVibrar(true);
-      }, 10);
+    // Limpiar errores previos
+    setErrorEmail(false);
+    setErrorPassword(false);
 
-      setTimeout(() => {
-        setVibrar(false);
-      }, 500);
-      return;
+    // Validar email
+    if (!emailValido) {
+      setErrorEmail(true);
+      activarVibracion(setVibrarEmail);
     }
 
-    alAutenticar({ rol: 'conductor', nombre: 'Carlos Conductor' });
+    // Validar contraseña
+    if (!passwordValido && emailValido) {
+      setErrorPassword(true);
+      activarVibracion(setVibrarPassword);
+    }
+
+    // Si ambos son válidos, autenticar
+    if (emailValido && passwordValido) {
+      alAutenticar({ rol: 'conductor', nombre: 'Carlos Conductor' });
+    }
   };
 
   return (
@@ -48,8 +67,8 @@ export function Login({ alAutenticar }) {
       <div className="w-full md:w-1/2 flex items-center justify-center p-6">
         <form 
           onSubmit={manejarLogin}
-          noValidate /* Evita que el navegador bloquee la vibración si el email es inválido */
-          className={`w-full max-w-sm bg-white p-10 rounded-[2.5rem] shadow-2xl md:shadow-none ${vibrar ? 'animate-vibrate' : ''}`}
+          noValidate
+          className="w-full max-w-sm bg-white p-10 rounded-[2.5rem] shadow-2xl md:shadow-none"
         >
           <div className="mb-10">
             <h2 className="text-4xl font-black text-gray-900 tracking-tight">Bienvenido</h2>
@@ -62,23 +81,25 @@ export function Login({ alAutenticar }) {
               <input 
                 type="email" 
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); setError(false); }}
+                onChange={(e) => { setEmail(e.target.value); setErrorEmail(false); }}
                 className={`w-full p-4 rounded-xl border-2 transition-all outline-none font-medium ${
-                  error ? 'border-red-500 bg-red-50' : 'border-gray-100 focus:border-green-600 bg-gray-50'
-                }`}
+                  errorEmail ? 'border-red-500 bg-red-50' : 'border-gray-100 focus:border-green-600 bg-gray-50'
+                } ${vibrarEmail ? 'animate-vibrate' : ''}`}
                 placeholder="conductor@fruterp.com"
               />
-              {error && <p className="text-red-600 text-[10px] font-black mt-2 ml-1">⚠️ Credenciales no reconocidas.</p>}
+              {errorEmail && <p className="text-red-600 text-[10px] font-black mt-2 ml-1">⚠️ Email no coincide con nuestros registros.</p>}
             </div>
 
             <div>
               <label className="block text-[10px] font-black text-gray-400 uppercase mb-2 ml-1">Contraseña</label>
-              <div className="relative">
+              <div className={`relative ${vibrarPassword ? 'animate-vibrate' : ''}`}>
                 <input 
                   type={mostrarPassword ? "text" : "password"} 
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-4 rounded-xl border-2 border-gray-100 bg-gray-50 outline-none focus:border-green-600 transition-all font-medium pr-12"
+                  onChange={(e) => { setPassword(e.target.value); setErrorPassword(false); }}
+                  className={`w-full p-4 rounded-xl border-2 outline-none focus:border-green-600 transition-all font-medium pr-12 ${
+                    errorPassword ? 'border-red-500 bg-red-50' : 'border-gray-100 bg-gray-50'
+                  }`}
                   placeholder="••••••••"
                 />
                 <button 
@@ -89,6 +110,7 @@ export function Login({ alAutenticar }) {
                   {mostrarPassword ? "👁️" : "🙈"}
                 </button>
               </div>
+              {errorPassword && <p className="text-red-600 text-[10px] font-black mt-2 ml-1">⚠️ Contraseña incorrecta.</p>}
             </div>
 
             <button className="w-full bg-green-700 hover:bg-green-800 text-white font-black py-5 rounded-2xl shadow-xl transition-all active:scale-95 mt-4 tracking-widest">

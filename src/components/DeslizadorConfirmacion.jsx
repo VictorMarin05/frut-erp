@@ -1,12 +1,18 @@
 // Importamos 'useState' para darle memoria a nuestra pieza
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export function DeslizadorConfirmacion({ onConfirmado }) {
+export function DeslizadorConfirmacion({ onConfirmado, resetTrigger }) {
   // 1. Memoria: ¿Por dónde va el deslizador? (De 0 a 100)
   const [progreso, setProgreso] = useState(0);
   
   // 2. Memoria: ¿Ya hemos llegado al final y confirmado?
   const [confirmado, setConfirmado] = useState(false);
+
+  // Resetear cuando resetTrigger cambia
+  useEffect(() => {
+    setConfirmado(false);
+    setProgreso(0);
+  }, [resetTrigger]);
 
   // Función que se ejecuta cada vez que movemos el dedo
   const manejarDeslizamiento = (evento) => {
