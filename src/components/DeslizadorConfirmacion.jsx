@@ -1,7 +1,7 @@
 // Importamos 'useState' para darle memoria a nuestra pieza
 import { useState } from 'react';
 
-export function DeslizadorConfirmacion() {
+export function DeslizadorConfirmacion({ onConfirmado }) {
   // 1. Memoria: ¿Por dónde va el deslizador? (De 0 a 100)
   const [progreso, setProgreso] = useState(0);
   
@@ -12,13 +12,14 @@ export function DeslizadorConfirmacion() {
   const manejarDeslizamiento = (evento) => {
     if (confirmado) return; // Si ya se confirmó, no hacemos nada
     
-    const valorActual = evento.target.value;
+    const valorActual = Number(evento.target.value);
     setProgreso(valorActual);
 
     // Si llega al 100%, bloqueamos y confirmamos
     if (valorActual >= 100) {
       setConfirmado(true);
       setProgreso(100);
+      onConfirmado?.();
     }
   };
 

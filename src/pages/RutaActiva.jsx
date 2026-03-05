@@ -45,6 +45,7 @@ const datosIniciales = [
 export function RutaActiva() {
   const [criterioOrden, setCriterioOrden] = useState('optimizado');
   const [filtroBusqueda, setFiltroBusqueda] = useState("");
+  const [paradasConfirmadas, setParadasConfirmadas] = useState(new Set());
 
   const paradasFiltradas = datosIniciales.filter(p => 
     p.cliente.toLowerCase().includes(filtroBusqueda.toLowerCase()) ||
@@ -89,17 +90,23 @@ export function RutaActiva() {
           ))}
         </div>
         
-        {paradasOrdenadas.map((parada) => (
-          <ParadaReparto 
-            key={parada.id} 
-            cliente={parada.cliente}
-            direccion={parada.direccion} 
-            telefono={parada.telefono}
-            notas={parada.notas}
-            items={parada.items}
-            distancia={parada.distancia}
-          />
-        ))}
+        {paradasOrdenadas.map((parada) => {
+          const estaConfirmada = paradasConfirmadas.has(parada.id);
+          return (
+            <ParadaReparto 
+              key={parada.id}
+              id={parada.id}
+              cliente={parada.cliente}
+              direccion={parada.direccion} 
+              telefono={parada.telefono}
+              notas={parada.notas}
+              items={parada.items}
+              distancia={parada.distancia}
+              confirmado={estaConfirmada}
+              onConfirmado={() => setParadasConfirmadas(new Set([...paradasConfirmadas, parada.id]))}
+            />
+          );
+        })}
     </div>
   )
 }

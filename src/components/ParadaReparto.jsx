@@ -3,7 +3,7 @@ import { DeslizadorConfirmacion } from './DeslizadorConfirmacion';
 import { ItemManifiesto } from './ItemManifiesto';
 import { InfoCliente } from './InfoCliente';
 
-export function ParadaReparto({ cliente, direccion, telefono, notas, items, distancia }) {
+export function ParadaReparto({ id, cliente, direccion, telefono, notas, items, distancia, confirmado = false, onConfirmado }) {
   const [menuAbiertoIdx, setMenuAbiertoIdx] = useState(null);
   const [itemsEscaneados, setItemsEscaneados] = useState([]);
 
@@ -16,6 +16,21 @@ export function ParadaReparto({ cliente, direccion, telefono, notas, items, dist
   };
 
   const todosEscaneados = items && itemsEscaneados.length === items.length;
+
+  // Si está confirmada, mostrar versión comprimida
+  if (confirmado) {
+    return (
+      <div className="bg-gray-100 border-l-8 border-gray-400 rounded-xl p-3 mb-3 w-full max-w-md opacity-60 transition-all">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-gray-500 line-through font-semibold text-sm">{cliente}</span>
+            <p className="text-gray-400 text-xs">{direccion}</p>
+          </div>
+          <span className="text-2xl">✅</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white border-l-8 border-blue-600 shadow-lg rounded-2xl p-6 mb-6 w-full max-w-md">
@@ -50,7 +65,7 @@ export function ParadaReparto({ cliente, direccion, telefono, notas, items, dist
             📷 ESCANEAR CAJAS ({itemsEscaneados.length}/{items.length})
         </button>
       ) : (
-        <DeslizadorConfirmacion />
+        <DeslizadorConfirmacion onConfirmado={onConfirmado} />
       )}
     </div>
   )
