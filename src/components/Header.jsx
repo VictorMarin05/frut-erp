@@ -1,8 +1,21 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-export function Header({ usuario }) {
+export function Header() {
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const { usuario, logout } = useAuth();
+  const navigate = useNavigate();
+
+  if (!usuario) return null;
+
   const iniciales = usuario.nombre.split(' ').map(n => n[0]).join('').toUpperCase();
+
+  const manejarLogout = () => {
+    logout();
+    setMenuAbierto(false);
+    navigate('/login');
+  };
 
   return (
     // 'sticky top-0' mantiene la navegación siempre visible al hacer scroll
@@ -10,7 +23,7 @@ export function Header({ usuario }) {
       <div className="font-black text-green-700 text-xl tracking-tighter italic">Frut-ERP</div>
 
       <div className="relative">
-        <button onClick={() => setMenuAbierto(!menuAbierto)} className="flex items-center gap-2 cursor-pointer focus:outline-none">
+        <button onClick={() => setMenuAbierto(!menuAbierto)} className="flex items-center gap-2 cursor-pointer focus:outline-none hover:bg-gray-50 px-3 py-2 rounded-lg transition-colors">
           <div className="relative">
             {/* Avatar circular según especificación Tailwind */}
             <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold shadow-sm text-sm">
@@ -28,13 +41,14 @@ export function Header({ usuario }) {
               <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
                 <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">{usuario.rol}</p>
                 <p className="text-sm font-bold text-gray-900">{usuario.nombre}</p>
+                <p className="text-xs text-gray-500 mt-1">{usuario.email}</p>
               </div>
               {/* Opción de cierre de sesión destructiva en color rojo */}
               <button 
-                onClick={() => { alert("Cerrando sesión y purgando datos..."); setMenuAbierto(false); }}
+                onClick={manejarLogout}
                 className="w-full text-left px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100"
               >
-                Cerrar Sesión
+                🚪 Cerrar Sesión
               </button>
             </div>
           </>
