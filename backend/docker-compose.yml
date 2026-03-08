@@ -1,0 +1,26 @@
+services:
+  db:
+    # Postgres versión 15
+    image: postgres:15
+    
+    # Nom del contenedor: fruterp_postgres
+    container_name: fruterp_postgres
+    
+    # Variables de entorno: Configuramos el usuario, contraseña y nombre de la base de datos
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: victor
+      POSTGRES_DB: fruterp_db
+    
+    # Ports: Conectamos el puerto 5432 del contenedor al puerto 5432 de tu PC
+    ports:
+      - "5432:5432"
+    
+    # 5. Volúmenes: Si borramos el contenedor, no queremos perder los datos de la fruta.
+    # Esto guarda la información de la base de datos en una carpeta oculta de tu disco duro.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# Declaramos el volumen que usamos arriba
+volumes:
+  postgres_data:
