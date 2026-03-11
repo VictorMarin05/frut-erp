@@ -19,9 +19,11 @@ Para la construcción de este ERP he optado por un enfoque dual:
 * **Frontend:** React, Vite, Tailwind CSS v4.
 
 ## Estado del Proyecto
+
 ### En progreso
 
 **Fases completadas:**
 Configuración de la infraestructura base (contenedores Docker) e interfaz del cliente con sistema de roles. 
+
 **Fase actual:**
 Modelado de la base de datos relacional, diseño de operaciones CRUD y construcción de la API REST.
